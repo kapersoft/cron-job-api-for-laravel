@@ -1,0 +1,36 @@
+name: Pest type coverage
+
+on:
+  push:
+    paths:
+      - '**.php'
+  pull_request:
+    paths:
+      - '**.php'
+
+jobs:
+  pest-type-coverage:
+    name: Pest type coverage (PHP ${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ['8.4']
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: none
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Pest type coverage
+        run: php -d memory_limit=-1 vendor/bin/pest --type-coverage --min=100
