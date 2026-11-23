@@ -30,7 +30,7 @@ jobs:
           coverage: none
 
       - name: Install composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
 
       - name: Pest type coverage
         run: php -d memory_limit=-1 vendor/bin/pest --type-coverage --min=100
